@@ -12,6 +12,7 @@ from typing import List
 from typing import Mapping
 from typing import Optional
 from typing import Sequence
+from typing import Tuple
 from typing import Type
 from typing import TypeVar
 from typing import Union
@@ -54,10 +55,10 @@ class PydanticPynamoDB(PydanticSchema):
     """
 
     _dynamo_obj: Optional[PydnamoModel] = None
-    _hash_key: Union[str, Callable]
-    _range_key: Optional[Union[str, Callable]]
-    _key_remap: Dict[str, Union[str, Callable]] = {}
-    _computed_keys: Dict[str, Callable] = {}
+    _hash_key: Union[str, Callable[[str, str, _T], Tuple[str, Any]]]
+    _range_key: Optional[Union[str, Callable[[str, str, _T], Tuple[str, Any]]]]
+    _key_remap: Dict[str, Union[str, Callable[[str, str, _T], Tuple[str, Any]]]] = {}
+    _computed_keys: Dict[str, Callable[[str, str, _T], Tuple[str, Any]]] = {}
     _auto_sync: bool = False
 
     class Model(PydnamoModel):
@@ -74,7 +75,12 @@ class PydanticPynamoDB(PydanticSchema):
     def dynamo_obj(self) -> PydnamoModel:
         if self._dynamo_obj is None:
             try:
-                self._dynamo_obj = self.Model.get(self.hash_key.val, self.range_key.val)
+                if self.range_key is not None:
+                    self._dynamo_obj = self.Model.get(
+                        self.hash_key.val, self.range_key.val
+                    )
+                else:
+                    self._dynamo_obj = self.Model.get(self.hash_key.val)
             except Exception as exc:
                 if isinstance(exc, PydnamoModel.DoesNotExist) or isinstance(
                     exc, GetError
@@ -199,7 +205,7 @@ class PydanticPynamoDB(PydanticSchema):
             self.dynamo_obj.save()
 
     @classmethod
-    def from_dynamo(cls: Type["Model"], dynamo_obj: _TM) -> Type[_T]:
+    def from_dynamo(cls, dynamo_obj: _TM) -> Type[_T]:
         """Creates a PydanticPynamoDB object from a pydnamodb object.
 
         Uses pydantic from_orm mode.
@@ -217,7 +223,7 @@ class PydanticPynamoDB(PydanticSchema):
 
     @classmethod
     def get(
-        cls: Type[_T],
+        cls,
         hash_key: _KeyType,
         range_key: Optional[_KeyType] = None,
         consistent_read: bool = False,
@@ -264,7 +270,7 @@ class PydanticPynamoDB(PydanticSchema):
         page_size: Optional[int] = None,
         rate_limit: Optional[float] = None,
         settings: OperationSettings = OperationSettings.default,
-    ) -> List[_T]:
+    ) -> List[Optional[_T]]:
         """
         Provides a high level query API.
 
@@ -313,7 +319,7 @@ class PydanticPynamoDB(PydanticSchema):
         rate_limit: Optional[float] = None,
         attributes_to_get: Optional[Sequence[str]] = None,
         settings: OperationSettings = OperationSettings.default,
-    ) -> List[_T]:
+    ) -> List[Optional[_T]]:
         """
         Iterates through all items in the table
         :param filter_condition: Condition used to restrict the scan results

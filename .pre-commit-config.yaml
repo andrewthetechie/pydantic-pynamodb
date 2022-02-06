@@ -32,6 +32,7 @@ repos:
         entry: flake8
         language: system
         types: [python]
+        exclude: "^(tests/*|noxfile.py)"
         require_serial: true
       - id: isort
         name: isort
