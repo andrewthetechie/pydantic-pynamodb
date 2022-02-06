@@ -12,8 +12,6 @@ from typing import List
 from typing import Mapping
 from typing import Optional
 from typing import Sequence
-from typing import Text
-from typing import Tuple
 from typing import Type
 from typing import TypeVar
 from typing import Union
@@ -47,7 +45,8 @@ class PydanticPynamoDB(PydanticSchema):
      * _range_key: Optional Str or Callable. This is the key of the object to use as the dynamo range key.
     Callable Signature callable(PydanticPynamoDB) -> str
     * _key_remap : Dict[str, Str or Callable] This is a dictionary of keys to remap to the dynamo object.
-    If you pass a string, the remap is a direct rename (i.e. name: thingName would map the value name to thingName in the dynamo object)
+    If you pass a string, the remap is a direct rename
+    (i.e. name: thingName would map the value name to thingName in the dynamo object)
     Callable Signature callable(str, Any, PydanticPynamoDB) -> Tuple[str, Any]
         Take in key name, value, and the PydanticPynamoDB object. Return the new key name, and the new value.
     * _ create_if_not_exist: bool - Default false. If true, will create the object in dynamodb if it doesn't already exist

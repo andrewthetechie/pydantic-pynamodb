@@ -22,17 +22,27 @@ except ImportError:
     raise SystemExit(dedent(message)) from None
 
 
-package = "pydantic_pynamodb"
+package = "healthchecks_io"
 python_versions = ["3.10", "3.9", "3.8", "3.7"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
+    "bandit",
     "safety",
     "mypy",
     "tests",
-    "typeguard",
+    # "typeguard",
     "xdoctest",
     "docs-build",
+)
+mypy_type_packages = ("types-croniter", "types-pytz")
+test_requirements = (
+    "coverage[toml]",
+    "pytest",
+    "pygments",
+    "respx",
+    "pytest-asyncio",
+    "pytest-lazy-fixture",
 )
 
 
@@ -72,11 +82,6 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
             """,
         # pre-commit >= 2.16.0
         "bash": f"""\
-            VIRTUAL_ENV={shlex.quote(virtualenv)}
-            PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
-            """,
-        # pre-commit >= 2.17.0 on Windows forces sh shebang
-        "/bin/sh": f"""\
             VIRTUAL_ENV={shlex.quote(virtualenv)}
             PATH={shlex.quote(session.bin)}"{os.pathsep}$PATH"
             """,
@@ -122,11 +127,11 @@ def precommit(session: Session) -> None:
         "flake8-bugbear",
         "flake8-docstrings",
         "flake8-rst-docstrings",
-        "isort",
         "pep8-naming",
         "pre-commit",
         "pre-commit-hooks",
         "pyupgrade",
+        "reorder-python-imports",
     )
     session.run("pre-commit", *args)
     if args and args[0] == "install":
@@ -144,19 +149,25 @@ def safety(session: Session) -> None:
 @session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
-    args = session.posargs or ["src", "tests", "docs/conf.py"]
+    args = session.posargs or ["src"]
     session.install(".")
     session.install("mypy", "pytest")
+    session.install(*mypy_type_packages)
     session.run("mypy", *args)
-    if not session.posargs:
-        session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
+
+
+@session(python=python_versions[0])
+def bandit(session: Session) -> None:
+    """Run bandit security tests"""
+    args = session.posargs or ["-r", "./src"]
+    session.run("bandit", *args)
 
 
 @session(python=python_versions)
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install(".")
-    session.install("coverage[toml]", "pytest", "pygments")
+    session.install(*test_requirements)
     try:
         session.run("coverage", "run", "--parallel", "-m", "pytest", *session.posargs)
     finally:
@@ -177,7 +188,7 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions[0])
+@session(python=python_versions)
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
     session.install(".")
