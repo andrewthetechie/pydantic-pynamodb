@@ -40,7 +40,7 @@ test_requirements = (
     "coverage[toml]",
     "pytest",
     "pygments",
-    "respx",
+    "isort",
     "pytest-asyncio",
     "pytest-lazy-fixture",
 )
