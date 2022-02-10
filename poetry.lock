@@ -651,7 +651,7 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "pynamodb"
-version = "5.2.0"
+version = "5.2.1"
 description = "A Pythonic Interface to DynamoDB"
 category = "main"
 optional = false
@@ -1507,8 +1507,8 @@ pygments = [
     {file = "Pygments-2.11.2.tar.gz", hash = "sha256:4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"},
 ]
 pynamodb = [
-    {file = "pynamodb-5.2.0-py3-none-any.whl", hash = "sha256:b3cb6470754b0f1b732f2425938321fbe682e72af8164772487a0a9a9c8fa1ac"},
-    {file = "pynamodb-5.2.0.tar.gz", hash = "sha256:6c9bec5946949d07c76230187cdb9126e8247c94499bbc8e79ded11d17060a60"},
+    {file = "pynamodb-5.2.1-py3-none-any.whl", hash = "sha256:bb93bd86061c91508c44668c219d51d080d011f665153fa9a471ced06b2f2ee7"},
+    {file = "pynamodb-5.2.1.tar.gz", hash = "sha256:c7a9c557b52364bc09257edd00378eebc75258bbdaa0fe050fcce2356149f90a"},
 ]
 pyparsing = [
     {file = "pyparsing-3.0.7-py3-none-any.whl", hash = "sha256:a6c06a88f252e6c322f65faf8f418b16213b51bdfaece0524c1c1bc30c63c484"},
