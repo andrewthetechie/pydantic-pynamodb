@@ -405,7 +405,7 @@ class PydanticPynamoDB(PydanticSchema):
         """
         Save this object to dynamodb.
         """
-        return self.dynamo_obj.save()
+        return self.dynamo_obj.save(condition, settings)
 
     def refresh(
         self,
