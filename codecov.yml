@@ -1,9 +1,9 @@
-comment: false
+comment: true
 coverage:
   status:
     project:
       default:
-        target: "100"
+        target: "45"
     patch:
       default:
-        target: "100"
+        target: "45"
