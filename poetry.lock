@@ -715,7 +715,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyupgrade"
-version = "2.36.0"
+version = "2.37.1"
 description = "A tool to automatically upgrade syntax for newer versions."
 category = "dev"
 optional = false
