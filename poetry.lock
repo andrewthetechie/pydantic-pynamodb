@@ -98,7 +98,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "botocore"
-version = "1.27.29"
+version = "1.27.30"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -1171,8 +1171,8 @@ black = [
     {file = "black-22.6.0.tar.gz", hash = "sha256:6c6d39e28aed379aec40da1c65434c77d75e65bb59a1e1c283de545fb4e7c6c9"},
 ]
 botocore = [
-    {file = "botocore-1.27.29-py3-none-any.whl", hash = "sha256:31b5cdb44017478b6a323d9622b94f6db58704e696c910892ddb123d9ccaf2d2"},
-    {file = "botocore-1.27.29.tar.gz", hash = "sha256:7bbd1ef1ef0083d5def197d40cf557509f5fd80d5d0f29e1ae32857832592bc7"},
+    {file = "botocore-1.27.30-py3-none-any.whl", hash = "sha256:953b9b4c0033280b2229e6e9c5de3ad2e56b887aec02c85680a2156842212092"},
+    {file = "botocore-1.27.30.tar.gz", hash = "sha256:35897569bf5f80b935f7381f6b0d1580ee0f6a94e3c568faca9ce6603391c829"},
 ]
 certifi = [
     {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
