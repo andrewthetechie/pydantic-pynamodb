@@ -2,7 +2,6 @@ name: Tests
 
 on:
   - push
-  - pull_request
 
 jobs:
   tests:
@@ -22,8 +21,8 @@ jobs:
           - { python: "3.9", os: "ubuntu-latest", session: "tests" }
           - { python: "3.8", os: "ubuntu-latest", session: "tests" }
           - { python: "3.7", os: "ubuntu-latest", session: "tests" }
-          - { python: "3.10", os: "windows-latest", session: "tests" }
-          - { python: "3.10", os: "macos-latest", session: "tests" }
+          # - { python: "3.10", os: "windows-latest", session: "tests" }
+          # - { python: "3.10", os: "macos-latest", session: "tests" }
           # - { python: "3.10", os: "ubuntu-latest", session: "typeguard" }
           - { python: "3.10", os: "ubuntu-latest", session: "xdoctest" }
           - { python: "3.10", os: "ubuntu-latest", session: "docs-build" }
@@ -93,7 +92,7 @@ jobs:
 
       - name: Run Nox
         run: |
-          nox --python=${{ matrix.python }}
+          nox --force-color --python=${{ matrix.python }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
@@ -141,14 +140,6 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: coverage-data
-
-      - name: Combine coverage data and display human readable report
-        run: |
-          nox --session=coverage
-
-      - name: Create coverage report
-        run: |
-          nox --session=coverage -- xml
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.0
