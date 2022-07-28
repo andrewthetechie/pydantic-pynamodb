@@ -1,5 +1,6 @@
+
 [flake8]
-# Eventually would like to add D, DAR
+# Eventually would add D and DAR
 select = B,B9,C,E,F,N,RST,S,W
 ignore = E203,E501,RST201,RST203,RST301,W503,B902,N805,DAR402
 max-line-length = 119
