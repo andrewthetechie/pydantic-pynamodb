@@ -1016,14 +1016,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pynamodb"
-version = "5.3.5"
+version = "5.4.0"
 description = "A Pythonic Interface to DynamoDB"
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pynamodb-5.3.5-py3-none-any.whl", hash = "sha256:d19e0df665c94e1653edb9717467872be3baf4af792bf032b4e6b1173c8548ce"},
-    {file = "pynamodb-5.3.5.tar.gz", hash = "sha256:cdb3fa7d2133a99225e5668df0f770ab9d9c3342cc9b37d32e7b90604d5efb88"},
+    {file = "pynamodb-5.4.0-py3-none-any.whl", hash = "sha256:f05784988d48429e7490a25346ad6e8a73cad3e20674993e31e78e9e4b40c93a"},
+    {file = "pynamodb-5.4.0.tar.gz", hash = "sha256:ac58d30c9d191ac16137571c13371a5d7125deeb21d57f0ffe2380b88275eb58"},
 ]
 
 [package.dependencies]
