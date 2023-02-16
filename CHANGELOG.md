@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/andrewthetechie/pydantic-pynamodb/compare/v0.0.8...v0.1.0) (2023-02-16)
+
+
+### Features
+
+* py3.11 support ([#388](https://github.com/andrewthetechie/pydantic-pynamodb/issues/388)) ([c1e7080](https://github.com/andrewthetechie/pydantic-pynamodb/commit/c1e7080869bd9d9dc478f353075ac46eead3c763))
+
 ## [0.0.8](https://github.com/andrewthetechie/pydantic-pynamodb/compare/v0.0.7...v0.0.8) (2022-09-13)
 
 
