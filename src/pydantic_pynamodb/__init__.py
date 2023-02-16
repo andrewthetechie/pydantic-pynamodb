@@ -1,6 +1,6 @@
 """Pydantic Pynamodb."""
 # set by poetry-dynamic-versioning
-__version__ = "0.0.8"  # noqa: E402
+__version__ = "0.1.0"  # noqa: E402
 
 from collections import namedtuple
 from typing import AbstractSet
