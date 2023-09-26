@@ -17,7 +17,7 @@ Changelog = "https://github.com/andrewthetechie/pydantic-pynamodb/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4.0"
-pydantic = "^1.9.0"
+pydantic = ">=1.9,<3.0"
 pynamodb = "^5.2.0"
 
 [tool.poetry.dev-dependencies]
