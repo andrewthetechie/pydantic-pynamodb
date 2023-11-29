@@ -306,6 +306,56 @@ class PydanticPynamoDB(PydanticSchema):
         ]
 
     @classmethod
+    def query_page(
+        cls: Type[_T],
+        hash_key: _KeyType,
+        range_key_condition: Optional[Condition] = None,
+        filter_condition: Optional[Condition] = None,
+        consistent_read: bool = False,
+        index_name: Optional[str] = None,
+        scan_index_forward: Optional[bool] = None,
+        limit: Optional[int] = None,
+        last_evaluated_key: Optional[Dict[str, Dict[str, Any]]] = None,
+        attributes_to_get: Optional[Iterable[str]] = None,
+        page_size: Optional[int] = None,
+        rate_limit: Optional[float] = None,
+        settings: OperationSettings = OperationSettings.default,
+    ) -> tuple[List[Optional[_T]], Optional[Dict[str, Any]]]:
+        """
+        Provides a high level query API, and return last_evaluated_key for pagination
+
+        :param hash_key: The hash key to query
+        :param range_key_condition: Condition for range key
+        :param filter_condition: Condition used to restrict the query results
+        :param consistent_read: If True, a consistent read is performed
+        :param index_name: If set, then this index is used
+        :param limit: Used to limit the number of results returned
+        :param scan_index_forward: If set, then used to specify the same parameter to the DynamoDB API.
+            Controls descending or ascending results
+        :param last_evaluated_key: If set, provides the starting point for query.
+        :param attributes_to_get: If set, only returns these elements
+        :param page_size: Page size of the query to DynamoDB
+        :param rate_limit: If set then consumed capacity will be limited to this amount per second
+        """
+        query_iterator = cls.Model.query(
+            hash_key,
+            range_key_condition,
+            filter_condition,
+            consistent_read,
+            index_name,
+            scan_index_forward,
+            limit,
+            last_evaluated_key,
+            attributes_to_get,
+            page_size,
+            rate_limit,
+            settings,
+        )
+        return [
+            cls.from_dynamo(dynamodb) for dynamodb in query_iterator
+        ], query_iterator.last_evaluated_key
+
+    @classmethod
     def scan(
         cls: Type[_T],
         filter_condition: Optional[Condition] = None,
@@ -322,6 +372,7 @@ class PydanticPynamoDB(PydanticSchema):
     ) -> List[Optional[_T]]:
         """
         Iterates through all items in the table
+
         :param filter_condition: Condition used to restrict the scan results
         :param segment: If set, then scans the segment
         :param total_segments: If set, then specifies total segments
@@ -349,6 +400,52 @@ class PydanticPynamoDB(PydanticSchema):
                 settings,
             )
         ]
+
+    @classmethod
+    def scan_page(
+        cls: Type[_T],
+        filter_condition: Optional[Condition] = None,
+        segment: Optional[int] = None,
+        total_segments: Optional[int] = None,
+        limit: Optional[int] = None,
+        last_evaluated_key: Optional[Dict[str, Dict[str, Any]]] = None,
+        page_size: Optional[int] = None,
+        consistent_read: Optional[bool] = None,
+        index_name: Optional[str] = None,
+        rate_limit: Optional[float] = None,
+        attributes_to_get: Optional[Sequence[str]] = None,
+        settings: OperationSettings = OperationSettings.default,
+    ) -> tuple[List[Optional[_T]], Optional[Dict[str, Any]]]:
+        """
+        Iterates through all items in the table, and return last_evaluated_key for pagination
+
+        :param filter_condition: Condition used to restrict the scan results
+        :param segment: If set, then scans the segment
+        :param total_segments: If set, then specifies total segments
+        :param limit: Used to limit the number of results returned
+        :param last_evaluated_key: If set, provides the starting point for scan.
+        :param page_size: Page size of the scan to DynamoDB
+        :param consistent_read: If True, a consistent read is performed
+        :param index_name: If set, then this index is used
+        :param rate_limit: If set then consumed capacity will be limited to this amount per second
+        :param attributes_to_get: If set, specifies the properties to include in the projection expression
+        """
+        query_iterator = cls.Model.scan(
+            filter_condition,
+            segment,
+            total_segments,
+            limit,
+            last_evaluated_key,
+            page_size,
+            consistent_read,
+            index_name,
+            rate_limit,
+            attributes_to_get,
+            settings,
+        )
+        return [
+            cls.from_dynamo(dynamodb) for dynamodb in query_iterator
+        ], query_iterator.last_evaluated_key
 
     @classmethod
     def update_ttl(cls, ignore_update_ttl_errors: bool) -> None:
