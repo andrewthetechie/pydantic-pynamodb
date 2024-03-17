@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pydantic-pynamodb"
-version = "0.1.0"
+version = "0.2.0"
 description = "Pydantic Pynamodb"
 authors = ["Andrew Herrington <andrew.the.techie@gmail.com>"]
 license = "MIT"
