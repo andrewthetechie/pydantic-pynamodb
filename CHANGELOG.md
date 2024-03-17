@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/andrewthetechie/pydantic-pynamodb/compare/v0.1.0...v0.2.0) (2024-03-17)
+
+
+### Features
+
+* add query_page and scan_page ([#521](https://github.com/andrewthetechie/pydantic-pynamodb/issues/521)) ([98dd48b](https://github.com/andrewthetechie/pydantic-pynamodb/commit/98dd48bbbd61330ce8b1588756e6669687515a0f))
+
 ## [0.1.0](https://github.com/andrewthetechie/pydantic-pynamodb/compare/v0.0.8...v0.1.0) (2023-02-16)
 
 
